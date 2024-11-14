@@ -3,9 +3,10 @@ import Header from "./Components/Header/Header";
 import CartProvider from "./Context/CartContext/CartContext";
 import Cart from "./Pages/Carrinho";
 import Done from "./Pages/Finalizacao";
-import Home from "./Pages/VendaEbook";
+import VendaEbook from "./Pages/VendaEbook";
 import CadastroEbook from "./Pages/CadastroEbook";
 import CadastroEbookProvider from "./Context/CadastroEbookContext/CadastroEbookContext";
+import Home from "./Pages/Home";
 
 export default function Routes() {
   return (
@@ -15,6 +16,7 @@ export default function Routes() {
         <CadastroEbookProvider>
         <WrapperRoutes>
           <Route path="/" element={<Home />} />
+          <Route path="/venda-ebook" element={<VendaEbook />} />
           <Route path="/cadastro-ebook" element={<CadastroEbook />} />
           <Route path="/carrinho" element={<Cart />} />
           <Route path="/done" element={<Done />} />

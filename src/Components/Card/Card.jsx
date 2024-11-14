@@ -7,11 +7,12 @@ export default function Card({ info }) {
   const { addProductToCart } = useContext(CartContext);
 
   const handleAddProductToCart = useCallback(() => {
-    try {
-      addProductToCart(info);
-      toast.success('Produto adicionado no carrinho');
-    } catch {
-      toast.error('Erro ao adicionar produto no carrinho');
+    const wasAdded = addProductToCart(info);
+  
+    if (wasAdded) {
+      toast.success("Produto adicionado no carrinho");
+    } else {
+      toast.error("Este e-book já foi adicionado ao carrinho.");
     }
   }, [addProductToCart, info]);
 

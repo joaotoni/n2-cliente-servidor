@@ -5,17 +5,19 @@ export default function CadastroEbook() {
     const { cadastrarEbook, loading } = useCadastroEbook();
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
+    const [tema, setTema] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
     const [link, setLink] = useState("");
+    const temas = ["Futurista", "Aventura", "Negócios", "Ficção Ciêntifica", "Românce", "Terror"];
 
     const handleFileUpload = (e) => {
         const file = e.target.files[0];
-    
+
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setLink(reader.result); 
+                setLink(reader.result);
             };
             reader.readAsDataURL(file);
         }
@@ -23,7 +25,7 @@ export default function CadastroEbook() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const ebookData = { title, author, description, price, link };
+        const ebookData = { title, author, description, price, link, tema };
         cadastrarEbook(ebookData);
     };
 
@@ -40,6 +42,24 @@ export default function CadastroEbook() {
                         className="w-full p-2 border rounded"
                         required
                     />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">Tema</label>
+                    <select
+                        value={tema}
+                        onChange={(e) => setTema(e.target.value)}
+                        className="w-full p-2 border rounded"
+                        required
+                    >
+                        <option value="" disabled>
+                            Selecione um tema
+                        </option>
+                        {temas.map((item, index) => (
+                            <option key={index} value={item.toLowerCase()}>
+                                {item}
+                            </option>
+                        ))}
+                    </select>
                 </div>
                 <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">Autor</label>

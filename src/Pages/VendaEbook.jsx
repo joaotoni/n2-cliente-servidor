@@ -4,7 +4,7 @@ import Card from "../Components/Card/Card";
 import List from "../products.json"
 
 
-export default function Home(){
+export default function VendaEbook(){
     return(
       <main >
         <h2 className="text-red-800 text-center text-[28px] font-bold">Conheça os nossos E-Books!!</h2>

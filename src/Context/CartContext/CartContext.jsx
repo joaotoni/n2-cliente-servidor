@@ -1,5 +1,6 @@
 import { createContext, useState } from "react";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 export const CartContext = createContext();
 
@@ -7,17 +8,18 @@ export default function CartProvider({ children }) {
   const [productsCart, setProductsCart] = useState([]);
 
   const addProductToCart = (card) => {
+    let wasAdded = false;
+  
     setProductsCart((prevCart) => {
       const existingProduct = prevCart.find((product) => product.id === card.id);
       if (existingProduct) {
-        return prevCart.map((product) =>
-          product.id === card.id
-            ? { ...product, qtd: product.qtd + 1 }
-            : product
-        );
+        return prevCart;
       }
+      wasAdded = true;
       return [...prevCart, { ...card, qtd: 1 }];
     });
+  
+    return wasAdded;
   };
 
   const removeProductToCart = (id) => {
