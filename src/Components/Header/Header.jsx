@@ -27,30 +27,54 @@ export default function Header() {
               role="menu"
               className="absolute z-10 min-w-[180px] overflow-auto rounded-lg border border-slate-200 bg-white p-1.5 shadow-lg focus:outline-none"
             >
+              <Link to="/">
               <li
                 role="menuitem"
                 className="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
               >
-                 <Link to="/">
                   <p className="text-black text-[14px] font-bold">Home</p>
-                </Link>
               </li>
+                </Link>
+              <Link to="/cadastro-ebook">
               <li
                 role="menuitem"
                 className="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
               >
-                <Link to="/cadastro-ebook">
                   <p className="text-black text-[14px] font-bold">Cadastro de E-book</p>
-                </Link>
               </li>
+                </Link>
+              <Link to="/carrinho">
               <li
                 role="menuitem"
                 className="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
               >
-                <Link to="/carrinho">
                   <p className="text-black text-[14px] font-bold">Carrinho</p>
-                </Link>
               </li>
+                </Link>
+              <Link to="/venda-ebook">
+                <li
+                  role="menuitem"
+                  className="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
+                >
+                  <p className="text-black text-[14px] font-bold">E-books</p>
+                </li>
+              </Link>
+              <Link to="/login">
+                <li
+                  role="menuitem"
+                  className="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
+                >
+                  <p className="text-black text-[14px] font-bold">Login</p>
+                </li>
+              </Link>
+              <Link to="/cadastro-usuario">
+                <li
+                  role="menuitem"
+                  className="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
+                >
+                  <p className="text-black text-[14px] font-bold">Registrar</p>
+                </li>
+              </Link>
             </ul>
           )}
         </div>

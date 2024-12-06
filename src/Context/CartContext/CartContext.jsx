@@ -1,6 +1,7 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import CompraService from "../../Service/CompraService";
 
 export const CartContext = createContext();
 
@@ -9,7 +10,7 @@ export default function CartProvider({ children }) {
 
   const addProductToCart = (card) => {
     let wasAdded = false;
-  
+
     setProductsCart((prevCart) => {
       const existingProduct = prevCart.find((product) => product.id === card.id);
       if (existingProduct) {
@@ -18,7 +19,7 @@ export default function CartProvider({ children }) {
       wasAdded = true;
       return [...prevCart, { ...card, qtd: 1 }];
     });
-  
+
     return wasAdded;
   };
 
@@ -36,9 +37,41 @@ export default function CartProvider({ children }) {
 
   const clearCart = () => setProductsCart([]);
 
+  const finalizePurchase = async (clienteId) => {
+    if (!productsCart.length) {
+      toast.error("O carrinho está vazio.");
+      return;
+    }
+
+    const compraData = {
+      clienteId,
+      itens: productsCart.map((product) => ({
+        produtoId: product.id,
+        quantidade: product.qtd,
+        preco: product.price,
+      })),
+      valorTotal: productsCart.reduce((acc, product) => acc + product.price * product.qtd, 0),
+    };
+
+    try {
+      await CompraService.registrarCompra(compraData);
+      toast.success("Compra realizada com sucesso!");
+      clearCart(); // Limpa o carrinho após a compra
+    } catch (error) {
+      console.error("Erro ao finalizar a compra:", error.message);
+      toast.error("Erro ao finalizar a compra. Tente novamente.");
+    }
+  };
+
   return (
     <CartContext.Provider
-      value={{ productsCart, addProductToCart, removeProductToCart, clearCart }}
+      value={{
+        productsCart,
+        addProductToCart,
+        removeProductToCart,
+        clearCart,
+        finalizePurchase,
+      }}
     >
       {children}
     </CartContext.Provider>
