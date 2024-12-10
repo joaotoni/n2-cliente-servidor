@@ -8,6 +8,7 @@ export function CadastroUsuarioProvider({ children }) {
   const [isLogged, setIsLogged] = useState(false);
 
   const [nome, setNome] = useState("");
+  const [tipo, setTipo] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmaSenha, setConfirmaSenha] = useState("");
@@ -41,15 +42,17 @@ export function CadastroUsuarioProvider({ children }) {
   
     try {
       const clienteData = await ClienteService.cadastrarCliente({
-        id: null, // Enviar null ou o valor padrão esperado
+        id: null,
         nome,
         email,
+        tipo,
         senha,
       });
   
       setSuccess(true);
       setNome("");
       setEmail("");
+      setTipo("");
       setSenha("");
       setConfirmaSenha("");
       logarUsuario(clienteData);
@@ -68,6 +71,8 @@ export function CadastroUsuarioProvider({ children }) {
         deslogarUsuario,
         nome,
         setNome,
+        tipo,
+        setTipo,
         email,
         setEmail,
         senha,

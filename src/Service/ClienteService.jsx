@@ -1,7 +1,7 @@
-const ClienteService = {
+const usuarioservice = {
   cadastrarCliente: async (clienteData) => {
     try {
-      const response = await fetch('api/clientes', { 
+      const response = await fetch('api/usuarios', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,4 +43,4 @@ const ClienteService = {
   },
 };
 
-export default ClienteService;
+export default usuarioservice;

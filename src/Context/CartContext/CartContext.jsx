@@ -37,31 +37,37 @@ export default function CartProvider({ children }) {
 
   const clearCart = () => setProductsCart([]);
 
-  const finalizePurchase = async (clienteId) => {
+  const finalizePurchase = async (usuarioId) => {
     if (!productsCart.length) {
       toast.error("O carrinho está vazio.");
       return;
     }
-
+  
     const compraData = {
-      clienteId,
-      itens: productsCart.map((product) => ({
-        produtoId: product.id,
-        quantidade: product.qtd,
-        preco: product.price,
+      usuario: {
+        id: usuarioId.id,
+        nome: usuarioId.nome,
+        email: usuarioId.email,
+        tipo: usuarioId.tipo,
+        senha: usuarioId.senha,
+      },
+      ebooks: productsCart.map((product) => ({
+        id: product.id,
       })),
-      valorTotal: productsCart.reduce((acc, product) => acc + product.price * product.qtd, 0),
+      total: productsCart.reduce((acc, product) => acc + (product.preco || 0) * (product.qtd || 1), 0),
+      dataCompra: new Date().toISOString().split("T")[0], // Data no formato YYYY-MM-DD
     };
-
+  
     try {
       await CompraService.registrarCompra(compraData);
       toast.success("Compra realizada com sucesso!");
-      clearCart(); // Limpa o carrinho após a compra
+      clearCart(); 
     } catch (error) {
       console.error("Erro ao finalizar a compra:", error.message);
       toast.error("Erro ao finalizar a compra. Tente novamente.");
     }
   };
+  
 
   return (
     <CartContext.Provider

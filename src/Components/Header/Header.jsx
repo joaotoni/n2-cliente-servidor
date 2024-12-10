@@ -75,6 +75,14 @@ export default function Header() {
                   <p className="text-black text-[14px] font-bold">Registrar</p>
                 </li>
               </Link>
+              <Link to="/historico-compras">
+                <li
+                  role="menuitem"
+                  className="cursor-pointer text-slate-800 flex w-full text-sm items-center rounded-md p-3 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
+                >
+                  <p className="text-black text-[14px] font-bold">Histórico de compras</p>
+                </li>
+              </Link>
             </ul>
           )}
         </div>

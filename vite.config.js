@@ -9,7 +9,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://clean-terms-create.loca.lt/', 
+        target: 'https://afraid-dogs-clap.loca.lt/', 
         changeOrigin: true, 
         rewrite: (path) => path.replace(/^\/api/, ''),
       },

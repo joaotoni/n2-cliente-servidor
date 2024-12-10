@@ -11,6 +11,8 @@ import LoginPage from "./Pages/LoginPage";
 import { LoginProvider } from "./Context/LoginContext/LoginContext";
 import CadastroUsuarioPage from "./Pages/CadastroUsuarioPage";
 import { CadastroUsuarioProvider } from "./Context/CadastroUsuarioContext/CadastroUsuarioContext";
+import ComprasRealizadasPage from "./Pages/ComprasRealizadasPage";
+import ComprasRealizadasContextProvider from "./Context/ComprasRealizadasContext/ComprasRealizadasContext";
 
 export default function Routes() {
   return (
@@ -28,6 +30,11 @@ export default function Routes() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/done" element={<Done />} />
                 <Route path="/cadastro-usuario" element={<CadastroUsuarioPage />} />
+                <Route path="/historico-compras" element={
+                  <ComprasRealizadasContextProvider>
+                    <ComprasRealizadasPage />
+                  </ComprasRealizadasContextProvider>
+                } />
               </WrapperRoutes>
             </CadastroEbookProvider>
           </CadastroUsuarioProvider>

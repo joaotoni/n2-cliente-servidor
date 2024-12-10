@@ -6,6 +6,8 @@ export default function CadastroUsuarioPage() {
     setNome,
     email,
     setEmail,
+    tipo,
+    setTipo,
     senha,
     setSenha,
     confirmaSenha,
@@ -62,7 +64,20 @@ export default function CadastroUsuarioPage() {
               required
             />
           </div>
-
+          <div>
+            <label htmlFor="role" className="block text-gray-700 font-medium">
+              Tipo de Usuário
+            </label>
+            <select
+              id="role"
+              value={tipo}
+              onChange={(e) => setTipo(e.target.value)}
+              className="w-full px-4 py-2 border rounded-md focus:ring focus:ring-blue-300 outline-none"
+            >
+              <option value="cliente">Cliente</option>
+              <option value="funcionario">Funcionário</option>
+            </select>
+          </div>
           <div>
             <label htmlFor="senha" className="block text-gray-700 font-medium">
               Senha

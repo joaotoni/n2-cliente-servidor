@@ -4,6 +4,7 @@ import { useLogin } from "../Context/LoginContext/LoginContext";
 import { useCadastroEbook } from "../Context/CadastroEbookContext/CadastroEbookContext";
 import { useState } from "react";
 import { NumericFormat } from "react-number-format";
+import { PDFDocument } from "pdf-lib";
 
 export default function CadastroEbook() {
   const navigate = useNavigate();
@@ -30,16 +31,38 @@ export default function CadastroEbook() {
       alert("Você precisa estar logado para acessar esta página.");
       navigate("/login");
     }
-  }, [isAuthenticated, navigate]);
+    if (cliente?.tipo !== "funcionario") {
+      alert("Apenas funcionários podem acessar esta página.");
+      navigate("/");
+    }
+  }, [isAuthenticated, cliente, navigate]);
 
-  const handleFileUpload = (e) => {
+  const compressAndEncodeFile = async (file) => {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(arrayBuffer);
+
+    pdfDoc.setTitle("");
+    pdfDoc.setAuthor("");
+    pdfDoc.setSubject("");
+
+    const compressedPdf = await pdfDoc.save();
+    const base64String = btoa(
+      String.fromCharCode(...new Uint8Array(compressedPdf))
+    );
+
+    return `data:application/pdf;base64,${base64String}`;
+  };
+
+  const handleFileUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setUrlArquivo(reader.result);
-      };
-      reader.readAsDataURL(file);
+      try {
+        const compressedBase64 = await compressAndEncodeFile(file);
+        setUrlArquivo(compressedBase64);
+      } catch (error) {
+        console.error("Erro ao compactar o arquivo:", error.message);
+        alert("Erro ao processar o arquivo. Tente novamente.");
+      }
     }
   };
 
@@ -132,7 +155,7 @@ export default function CadastroEbook() {
           <label className="block text-sm font-medium mb-1">Arquivo do E-book</label>
           <input
             type="file"
-            accept=".pdf,.epub,.mobi"
+            accept=".pdf"
             onChange={handleFileUpload}
             className="w-full p-2 border rounded"
             required
@@ -149,4 +172,3 @@ export default function CadastroEbook() {
     </div>
   );
 }
-

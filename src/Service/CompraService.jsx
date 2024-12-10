@@ -1,24 +1,24 @@
 const CompraService = {
     registrarCompra: async (compraData) => {
         try {
-            const response = await fetch('api/compras', {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(compraData),
-            });
-
-            if (!response.ok) {
-                throw new Error("Erro ao registrar compra");
-            }
-
-            return await response.json();
+          const response = await fetch('api/compras', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(compraData),
+          });
+    
+          if (!response.ok) {
+            throw new Error("Erro ao registrar compra.");
+          }
+    
+          return await response.json();
         } catch (error) {
-            console.error("Erro ao registrar compra:", error.message);
-            throw error;
+          console.error("Erro ao registrar compra:", error.message);
+          throw error;
         }
-    },
+      },
 
     listarCompras: async () => {
         try {
@@ -54,9 +54,9 @@ const CompraService = {
         }
     },
 
-    listarComprasPorCliente: async (clienteId) => {
+    listarComprasPorCliente: async (usuarioId) => {
         try {
-            const response = await fetch(`api/compras/cliente/${clienteId}`, {
+            const response = await fetch(`api/compras/usuarios/${usuarioId}`, {
                 method: "GET",
             });
 

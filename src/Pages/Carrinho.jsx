@@ -7,22 +7,28 @@ import { toast } from "react-toastify";
 
 export default function Cart() {
   const { productsCart, removeProductToCart, clearCart, finalizePurchase } = useContext(CartContext);
-  const { cliente, isLogged } = useLogin();
+  const { cliente, isAuthenticated } = useLogin();
   const navigate = useNavigate();
-  const totalPrice = productsCart.reduce((acc, current) => acc + current.price * current.qtd, 0);
+  const totalPrice = productsCart.reduce((acc, current) => acc + (current.preco || 0) * (current.qtd || 1), 0);
 
   useEffect(() => {
-    if (!isLogged) {
-      toast.error("Você precisa estar logado para acessar o carrinho.");
+    if (!isAuthenticated) {
+      alert("Você precisa estar logado para acessar esta página.");
       navigate("/login");
     }
-  }, [isLogged, navigate]);
+  }, [isAuthenticated, navigate]);
+
+  const handleFinalizePurchase = async () => {
+    await finalizePurchase(cliente);
+    toast.success("Compra realizada com sucesso!");
+    navigate("/done")
+  };
 
   if (!productsCart.length) {
     return (
       <section className="flex flex-col text-center justify-center items-center pt-10">
         <div className="bg-gradient-to-b from-orange-900 to-orange-400 p-2 mx-4 rounded-xl sm:p-6">
-          <h1 className="text-white font-bold text-[24px] sm:pb-2">Carrinho vazio, vamos as compras?</h1>
+          <h1 className="text-white font-bold text-[24px] sm:pb-2">Carrinho vazio, vamos às compras?</h1>
           <Link to={"/venda-ebook"}>
             <p className="text-white bg-black p-2 rounded-xl text-[18px] mt-2 mx-[80px]">Voltar aos Produtos</p>
           </Link>
@@ -39,7 +45,7 @@ export default function Cart() {
           <span className="text-black text-[20px] lg:pb-4">O valor total é de {FormatValue(totalPrice.toFixed(2))}</span>
           <button
             className="text-white bg-black p-2 rounded-xl text-[18px] mt-2 mx-8 lg:mb-4"
-            onClick={() => finalizePurchase(cliente.id)}
+            onClick={handleFinalizePurchase}
           >
             Finalizar o pedido
           </button>
@@ -51,20 +57,17 @@ export default function Cart() {
           </button>
         </div>
         <div>
-          <h3>Produtos:</h3>
           {productsCart.map((card) => (
             <div
-              className="p-4 bg-opacity-50 bg-gradient-to-b from-orange-900 to-orange-400 flex flex-wrap items-center justify-center text-center rounded-[12px] w-[300px] mb-6 lg:flex-nowrap lg:w-[650px] lg:justify-around lg:items-stretch"
+              className="p-4 bg-opacity-50 bg-gradient-to-b from-orange-900 to-orange-400 flex flex-wrap items-center justify-center text-center rounded-[12px] w-[300px] mb-6 lg:flex-nowrap lg:w-[350px] lg:justify-around lg:items-stretch"
               key={card.id}
             >
-              <div>
-                <img className="rounded-[12px] lg:w-[400px]" src={`/Assets/Imgs/${card.image}`} alt="" />
-              </div>
               <div className="w-[250px] lg:w-[500px]">
-                <h2 className="text-black text-[16px] font-bold lg:text-[24px] lg:pb-4">{card.name}</h2>
-                <p className="text-black text-[16px] lg:text-[22px] lg:pb-4">Pontuação: {card.score}</p>
-                <p className="text-black text-[16px] lg:text-[22px] lg:pb-4">{FormatValue(card.price * card.qtd)}</p>
-                <p className="text-black text-[16px] lg:text-[22px] lg:pb-4">Quantidade {card.qtd}</p>
+                <h2 className="text-black text-[16px] font-bold lg:text-[24px] lg:pb-4">{card.titulo}</h2>
+                <p className="text-black text-[16px] lg:text-[22px] lg:pb-4">Autor: {card.autor}</p>
+                <p className="text-black text-[16px] lg:text-[22px] lg:pb-4">Categoria: {card.categoria}</p>
+                <p className="text-black text-[16px] lg:text-[22px] lg:pb-4">Preço: {FormatValue(card.preco || 0)}</p>
+                <p className="text-black text-[16px] lg:text-[22px] lg:pb-4">Quantidade: {card.qtd || 1}</p>
                 <button
                   className="text-white bg-black p-2 rounded-xl text-[18px] mt-2 lg:text-[22px]"
                   onClick={() => removeProductToCart(card.id)}
